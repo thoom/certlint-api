@@ -1,0 +1,6 @@
+[submodule "certlint"]
+	path = certlint
+	url = https://github.com/awslabs/certlint.git
+[submodule "asn1c"]
+	path = asn1c
+	url = https://github.com/vlm/asn1c.git
