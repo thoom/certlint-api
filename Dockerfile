@@ -5,7 +5,10 @@
 FROM alpine
 MAINTAINER Z.d.Peacock <zdp@thoomtech.com>
 
+#
 # Install ruby and pre-requisite packages for building the certlint-x509helper
+# Store the build dependencies so that they can be removed later
+#
 RUN apk add --no-cache --update --virtual .build-deps \
     build-base automake git patch libtool  autoconf curl \
     && apk add --no-cache --update ruby ruby-dev
@@ -24,10 +27,11 @@ RUN sh /tmp/x509helper-installer.sh && \
 #
 # Required ruby gems (-N doesn't install ruby documentation)
 #  - certlint:  public_suffix open4 simpleidn
-#  - web-service: sinatra thin
+#  - web-service: sinatra thin json
 #
 RUN gem install -N public_suffix:1.5.3 open4 simpleidn sinatra thin json
 
+# Remove leftover build dependencies
 RUN apk del .build-deps
 
 # Save the API to the correct location
