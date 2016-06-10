@@ -7,7 +7,7 @@ A simple web API interface for the [certlint](https://github.com/awslabs/certlin
 Installation
 ------------
 
-Provided as an Ubuntu 16.04 Docker image.
+Provided as an Alpine Docker image.
 
     docker pull thoom/certlint-api
     docker run -p 9000:9000 --name certlint-api -d thoom/certlint-api

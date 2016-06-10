@@ -2,12 +2,13 @@
 # CertLint web-service docker image
 # This docker requires running in privileged mode
 #
-FROM ubuntu:16.04
+FROM alpine
 MAINTAINER Z.d.Peacock <zdp@thoomtech.com>
 
 # Install ruby and pre-requisite packages for building the certlint-x509helper
-RUN apt-get update -y && \
-    apt-get install -y build-essential git patch libtool ruby ruby-dev autoconf curl
+RUN apk add --no-cache --update --virtual .build-deps \
+    build-base automake git patch libtool  autoconf curl \
+    && apk add --no-cache --update ruby ruby-dev
 
 #
 # Install certlint and certlint-x509helper
@@ -25,7 +26,9 @@ RUN sh /tmp/x509helper-installer.sh && \
 #  - certlint:  public_suffix open4 simpleidn
 #  - web-service: sinatra thin
 #
-RUN gem install -N public_suffix:1.5.3 open4 simpleidn sinatra thin
+RUN gem install -N public_suffix:1.5.3 open4 simpleidn sinatra thin json
+
+RUN apk del .build-deps
 
 # Save the API to the correct location
 WORKDIR /usr/local/app
