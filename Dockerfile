@@ -16,13 +16,13 @@ RUN apk add --no-cache --update --virtual .build-deps \
 #
 # Install certlint and certlint-x509helper
 #
-ADD certlint /usr/local/certlint
-ADD asn1c /usr/local/certlint/build-x509helper/asn1c
+COPY certlint /usr/local/certlint
+COPY asn1c /usr/local/certlint/build-x509helper/asn1c
 
 # Once these files are in place, run the shell script to build the certlint-x509helper
-ADD x509helper-installer.sh /tmp
-RUN sh /tmp/x509helper-installer.sh && \
-    rm /tmp/x509helper-installer.sh
+COPY x509helper-installer.sh /tmp
+RUN sh /tmp/x509helper-installer.sh \
+    && rm /tmp/x509helper-installer.sh
 
 #
 # Required ruby gems (-N doesn't install ruby documentation)
@@ -36,7 +36,7 @@ RUN apk del .build-deps
 
 # Save the API to the correct location
 WORKDIR /usr/local/app
-ADD api .
+COPY api .
 
 EXPOSE 9000
 
